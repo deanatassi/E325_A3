@@ -63,6 +63,35 @@ Turkey_data <- datCO2 %>% filter(Entity == "Turkey")
 
 ggplot(Turkey_data, aes(x = Year, y = CO2)) + 
   geom_line() + 
-  labs(x = "Year", y = expression(CO[2]), title = "Historic Carbon Emissions in Turkey" )
+  labs(x = "Year", y = expression(CO[2]), title = "Historical Carbon Emissions in Turkey" )
 
+# Question 2 - World Emissions and Temperature Anomalies Graphs
 
+# Temperature Anomaly Graph
+
+# n_clim_data <- climate_data %>% mutate(Northern_Hemisphere = ifelse(Entity == "Northern Hemisphere",temperature_anomaly,NA))
+# Ignore the above, I did not realize there was a "World" value for Entity
+
+n_clim_data <- climate_data %>% filter(Entity == "World") 
+
+ggplot(n_clim_data, aes(x = time, y = temperature_anomaly)) + 
+  geom_line() + 
+  labs(x = "Year", y = "Temperature Anomaly (Celcius)", title = "Historical Global Temperature Anomalies")
+
+# Global Carbon Emissions Graphs
+
+global_emissions <- datCO2 %>% filter(Entity == "World")
+
+ggplot(global_emissions, aes(x = Year, y = CO2)) + 
+  geom_line() + 
+  labs(x = "Year", y = "Carbon Emissions (billions of tons of CO2)", title = "Historical Global Carbon Emissions")
+
+# Making my own Graph - Nuclear Power Generation 
+
+nuclear <- read.csv("/cloud/project/activity03/nuclear-energy-generation.csv")
+
+global_nuclear <- nuclear %>% filter(Entity == "World") %>% mutate(Nuclear = Electricity.from.nuclear...TWh)
+
+ggplot(global_nuclear, aes(x = Year, y = Nuclear)) + 
+  geom_line() +
+  labs(x = "Year", y = "Electricity from Nuclear (Twh)", title = "Global Historical Nuclear Power Generation")
